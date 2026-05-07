@@ -1,0 +1,30 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / tooling
+.claude/
+.vscode/
+.idea/
+*.swp
+
+# Internal — exploration & moodboards (not part of public case study)
+brand-asset/
+Moodboard-Final/
+Moodboard-PrecisioninShadow/
+Moodboard-TheObjectofReturn/
+Moodboard-TheQuietHour/
+
+# Old pitch deck (superseded by landing-prototype/)
+/index.html
+/script.js
+/styles.css
+/snap/.DS_Store
+
+# Plans / scratch
+/plans/
+
+# Build artifacts
+node_modules/
+dist/
+.cache/
