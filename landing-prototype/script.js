@@ -857,6 +857,7 @@ function updateCraftsmanship() {
   const enterProgress = clamp((enterStart - weBottom) / enterStart, 0, 1);
   const easedEnter = enterProgress * enterProgress * (3 - 2 * enterProgress);
   craftsmanship.style.setProperty("--craft-enter-opacity", easedEnter.toFixed(3));
+  craftsmanship.style.setProperty("--craft-bg-opacity", easedEnter.toFixed(3));
   craftsmanship.style.setProperty("--craft-enter-y", "0");
   craftsmanship.style.setProperty("--craft-enter-scale", (1.04 - easedEnter * 0.04).toFixed(4));
   craftsmanship.style.setProperty("--craft-enter-blur", `${((1 - easedEnter) * 4).toFixed(2)}px`);

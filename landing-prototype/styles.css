@@ -1601,6 +1601,7 @@ video {
   --craft-enter-y: 0;
   --craft-enter-scale: 1.04;
   --craft-enter-blur: 4px;
+  --craft-bg-opacity: 0;
   height: 130svh;
   min-height: 0;
   margin-top: -100svh;
@@ -1612,9 +1613,15 @@ video {
   background: transparent;
 }
 
-.craftsmanship.is-craft-fixed,
-.craftsmanship.is-craft-after {
+.craftsmanship::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: var(--lyrica-ink);
+  opacity: var(--craft-bg-opacity);
+  pointer-events: none;
+  transition: opacity var(--motion-md) var(--ease-return);
 }
 
 .craftsmanship.is-craft-fixed {
