@@ -851,14 +851,14 @@ function updateCraftsmanship() {
   craftsmanship.classList.toggle("is-craft-fixed", shouldFix);
   craftsmanship.classList.toggle("is-craft-after", shouldSettle);
 
-  const enterStart = viewportHeight * 1.5;
+  const enterStart = viewportHeight * 1.8;
   const enterProgress = clamp((enterStart - rect.top) / enterStart, 0, 1);
   const easedEnter = enterProgress * enterProgress * (3 - 2 * enterProgress);
-  const enterOpacity = 0.2 + easedEnter * 0.8;
+  const enterOpacity = 0.4 + easedEnter * 0.6;
   craftsmanship.style.setProperty("--craft-enter-opacity", enterOpacity.toFixed(3));
-  craftsmanship.style.setProperty("--craft-enter-y", `${((1 - easedEnter) * 4).toFixed(2)}vh`);
-  craftsmanship.style.setProperty("--craft-enter-scale", (1.05 - easedEnter * 0.05).toFixed(4));
-  craftsmanship.style.setProperty("--craft-enter-blur", `${((1 - easedEnter) * 6).toFixed(2)}px`);
+  craftsmanship.style.setProperty("--craft-enter-y", "0");
+  craftsmanship.style.setProperty("--craft-enter-scale", (1.04 - easedEnter * 0.04).toFixed(4));
+  craftsmanship.style.setProperty("--craft-enter-blur", `${((1 - easedEnter) * 4).toFixed(2)}px`);
 
   craftState.targetProgress = clamp(-rect.top / scrollSpan, 0, 1);
   ensureCraftFrame();

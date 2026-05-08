@@ -1592,20 +1592,20 @@ video {
 
 .craftsmanship {
   --craft-media-y: 0px;
-  --craft-media-scale: 1;
+  --craft-media-scale: 1.18;
   --craft-media-blur: 0px;
   --craft-content-opacity: 1;
   --craft-content-y: 0px;
   --craft-content-blur: 0px;
-  --craft-enter-opacity: 0.2;
-  --craft-enter-y: 4vh;
-  --craft-enter-scale: 1.05;
-  --craft-enter-blur: 6px;
-  height: 150svh;
+  --craft-enter-opacity: 0.35;
+  --craft-enter-y: 0;
+  --craft-enter-scale: 1.04;
+  --craft-enter-blur: 4px;
+  height: 130svh;
   min-height: 0;
-  margin-top: -55svh;
+  margin-top: -100svh;
   position: relative;
-  z-index: 5;
+  z-index: 30;
   display: block;
   padding: 0;
   overflow: visible;
@@ -1658,11 +1658,11 @@ video {
 
 .craft-viewport {
   position: absolute;
-  inset: 0;
+  inset: calc(var(--space-13) * -1) calc(var(--grid-margin) * -1);
   z-index: 0;
   opacity: var(--craft-enter-opacity);
   transform:
-    translate3d(0, calc(var(--craft-media-y) + var(--craft-enter-y)), 0)
+    translate3d(0, var(--craft-media-y), 0)
     scale(calc(var(--craft-media-scale) * var(--craft-enter-scale)));
   filter: blur(calc(var(--craft-media-blur) + var(--craft-enter-blur)));
   pointer-events: none;
