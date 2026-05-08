@@ -1645,7 +1645,7 @@ video {
   padding: var(--space-13) var(--grid-margin);
   overflow: hidden;
   isolation: isolate;
-  opacity: 1;
+  opacity: var(--craft-enter-opacity);
   transform: none;
   transition: none;
 }
@@ -1672,14 +1672,12 @@ video {
   position: absolute;
   inset: calc(var(--space-13) * -1) calc(var(--grid-margin) * -1);
   z-index: 0;
-  opacity: var(--craft-enter-opacity);
   transform:
     translate3d(0, var(--craft-media-y), 0)
     scale(calc(var(--craft-media-scale) * var(--craft-enter-scale)));
   filter: blur(calc(var(--craft-media-blur) + var(--craft-enter-blur)));
   pointer-events: none;
-  transition: opacity var(--motion-md) var(--ease-return);
-  will-change: transform, filter, opacity;
+  will-change: transform, filter;
 }
 
 .craft-sequence {
