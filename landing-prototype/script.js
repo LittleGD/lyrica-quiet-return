@@ -889,7 +889,10 @@ function renderCraftsmanship() {
     craftsmanship.style.setProperty("--craft-media-blur", `${(Math.abs(progress - 0.5) * 0.3).toFixed(2)}px`);
   }
 
-  craftsmanship.style.setProperty("--craft-content-opacity", easedContent.toFixed(3));
+  const enterStr = craftsmanship.style.getPropertyValue("--craft-enter-opacity");
+  const easedEnterRead = parseFloat(enterStr) || 0;
+  const textGate = clamp((easedEnterRead - 0.85) / 0.15, 0, 1);
+  craftsmanship.style.setProperty("--craft-content-opacity", (easedContent * textGate).toFixed(3));
   craftsmanship.style.setProperty("--craft-content-y", `${((1 - easedContent) * 18).toFixed(2)}px`);
   craftsmanship.style.setProperty("--craft-content-blur", `${((1 - easedContent) * 3.4).toFixed(2)}px`);
 
