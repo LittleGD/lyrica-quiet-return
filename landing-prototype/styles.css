@@ -1597,7 +1597,7 @@ video {
   --craft-content-opacity: 1;
   --craft-content-y: 0px;
   --craft-content-blur: 0px;
-  --craft-enter-opacity: 0.35;
+  --craft-enter-opacity: 0;
   --craft-enter-y: 0;
   --craft-enter-scale: 1.04;
   --craft-enter-blur: 4px;
@@ -1609,6 +1609,11 @@ video {
   display: block;
   padding: 0;
   overflow: visible;
+  background: transparent;
+}
+
+.craftsmanship.is-craft-fixed,
+.craftsmanship.is-craft-after {
   background: var(--lyrica-ink);
 }
 
