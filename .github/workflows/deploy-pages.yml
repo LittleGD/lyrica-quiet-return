@@ -35,10 +35,8 @@ jobs:
           cp -R landing-prototype/. _site/
           cp -R final-src-branding _site/final-src-branding
           cp -R snap _site/snap
-          cp -R brand-asset _site/brand-asset
-
           find _site -maxdepth 1 -name "*.html" -print0 | while IFS= read -r -d '' file; do
-            perl -0pi -e 's!\.\./final-src-branding/!./final-src-branding/!g; s!\.\./snap/!./snap/!g; s!\.\./brand-asset/!./brand-asset/!g' "$file"
+            perl -0pi -e 's!\.\./final-src-branding/!./final-src-branding/!g; s!\.\./snap/!./snap/!g' "$file"
           done
 
           touch _site/.nojekyll
