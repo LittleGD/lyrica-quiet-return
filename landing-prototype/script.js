@@ -633,14 +633,23 @@ function updateExplorer() {
     ? clamp((enterStart - rect.top) / enterSpan, 0, 1)
     : 0;
   const easedEnter = enterProgress * enterProgress * (3 - 2 * enterProgress);
+  const exitProgress = rect.bottom < viewportHeight
+    ? clamp((viewportHeight - rect.bottom) / (viewportHeight * 0.74), 0, 1)
+    : 0;
+  const easedExit = exitProgress * exitProgress * (3 - 2 * exitProgress);
   const contentProgress = clamp((easedEnter - 0.86) / 0.14, 0, 1);
   const easedContent = contentProgress * contentProgress * (3 - 2 * contentProgress);
+  const observeVisualOpacity = (0.28 + easedEnter * 0.72) * (1 - easedExit * 0.9);
+  const observeContentOpacity = easedContent * (1 - easedExit);
+  const observeY = (1 - easedEnter) * 7.2 - easedExit * 5.4;
+  const observeScale = 1.026 - easedEnter * 0.026 + easedExit * 0.012;
+  const observeBlur = (1 - easedEnter) * 5.4 + easedExit * 4.2;
 
   watchExploration.classList.toggle("is-observe-fixed", shouldFix);
   watchExploration.classList.toggle("is-observe-after", shouldSettle);
   watchExploration.style.setProperty(
     "--observe-enter-opacity",
-    (0.28 + easedEnter * 0.72).toFixed(3)
+    observeVisualOpacity.toFixed(3)
   );
   watchExploration.style.setProperty(
     "--observe-enter-clip",
@@ -648,15 +657,15 @@ function updateExplorer() {
   );
   watchExploration.style.setProperty(
     "--observe-enter-y",
-    `${((1 - easedEnter) * 7.2).toFixed(2)}vh`
+    `${observeY.toFixed(2)}vh`
   );
   watchExploration.style.setProperty(
     "--observe-enter-scale",
-    (1.026 - easedEnter * 0.026).toFixed(4)
+    observeScale.toFixed(4)
   );
   watchExploration.style.setProperty(
     "--observe-enter-blur",
-    `${((1 - easedEnter) * 5.4).toFixed(2)}px`
+    `${observeBlur.toFixed(2)}px`
   );
   watchExploration.style.setProperty(
     "--observe-paper-opacity",
@@ -664,15 +673,15 @@ function updateExplorer() {
   );
   watchExploration.style.setProperty(
     "--observe-content-opacity",
-    easedContent.toFixed(3)
+    observeContentOpacity.toFixed(3)
   );
   watchExploration.style.setProperty(
     "--observe-content-y",
-    `${((1 - easedContent) * 18).toFixed(2)}px`
+    `${(((1 - easedContent) * 18) - easedExit * 24).toFixed(2)}px`
   );
   watchExploration.style.setProperty(
     "--observe-content-blur",
-    `${((1 - easedContent) * 3.2).toFixed(2)}px`
+    `${(((1 - easedContent) * 3.2) + easedExit * 5.6).toFixed(2)}px`
   );
   explorerState.targetProgress = clamp(
     Math.max(-rect.top - enterSpan, 0) / Math.max(scrollSpan - enterSpan, 1),
@@ -851,18 +860,19 @@ function updateCraftsmanship() {
   craftsmanship.classList.toggle("is-craft-fixed", shouldFix);
   craftsmanship.classList.toggle("is-craft-after", shouldSettle);
 
-  const weRect = watchExploration ? watchExploration.getBoundingClientRect() : null;
-  const weBottom = weRect ? weRect.bottom : viewportHeight + 1;
-  const enterStart = viewportHeight * 1.3;
-  const enterProgress = clamp((enterStart - weBottom) / enterStart, 0, 1);
+  const enterStart = viewportHeight * 1.04;
+  const enterEnd = -viewportHeight * 0.24;
+  const enterProgress = clamp((enterStart - rect.top) / (enterStart - enterEnd), 0, 1);
   const easedEnter = enterProgress * enterProgress * (3 - 2 * enterProgress);
   craftsmanship.style.setProperty("--craft-enter-opacity", easedEnter.toFixed(3));
   craftsmanship.style.setProperty("--craft-bg-opacity", easedEnter.toFixed(3));
-  craftsmanship.style.setProperty("--craft-enter-y", "0");
-  craftsmanship.style.setProperty("--craft-enter-scale", (1.04 - easedEnter * 0.04).toFixed(4));
-  craftsmanship.style.setProperty("--craft-enter-blur", `${((1 - easedEnter) * 4).toFixed(2)}px`);
+  craftsmanship.style.setProperty("--craft-enter-y", `${((1 - easedEnter) * 7.8).toFixed(2)}vh`);
+  craftsmanship.style.setProperty("--craft-enter-scale", (1.055 - easedEnter * 0.055).toFixed(4));
+  craftsmanship.style.setProperty("--craft-enter-blur", `${((1 - easedEnter) * 5.2).toFixed(2)}px`);
+  craftsmanship.style.setProperty("--craft-enter-clip", `${((1 - easedEnter) * 30).toFixed(2)}%`);
 
-  craftState.targetProgress = clamp(-rect.top / scrollSpan, 0, 1);
+  const preRoll = viewportHeight * 0.22;
+  craftState.targetProgress = clamp((preRoll - rect.top) / (scrollSpan + preRoll), 0, 1);
   ensureCraftFrame();
 }
 
@@ -880,7 +890,9 @@ function renderCraftsmanship() {
 
   const progress = clamp(craftState.progress, 0, 1);
   const easedProgress = progress * progress * (3 - 2 * progress);
-  const contentProgress = clamp((progress - 0.025) / 0.34, 0, 1);
+  const enterStr = craftsmanship.style.getPropertyValue("--craft-enter-opacity");
+  const easedEnterRead = parseFloat(enterStr) || 0;
+  const contentProgress = clamp((progress + easedEnterRead * 0.08 - 0.02) / 0.36, 0, 1);
   const easedContent = contentProgress * contentProgress * (3 - 2 * contentProgress);
 
   if (craftSequence) {
@@ -889,9 +901,7 @@ function renderCraftsmanship() {
     craftsmanship.style.setProperty("--craft-media-blur", `${(Math.abs(progress - 0.5) * 0.3).toFixed(2)}px`);
   }
 
-  const enterStr = craftsmanship.style.getPropertyValue("--craft-enter-opacity");
-  const easedEnterRead = parseFloat(enterStr) || 0;
-  const textGate = clamp((easedEnterRead - 0.85) / 0.15, 0, 1);
+  const textGate = clamp((easedEnterRead - 0.58) / 0.3, 0, 1);
   craftsmanship.style.setProperty("--craft-content-opacity", (easedContent * textGate).toFixed(3));
   craftsmanship.style.setProperty("--craft-content-y", `${((1 - easedContent) * 18).toFixed(2)}px`);
   craftsmanship.style.setProperty("--craft-content-blur", `${((1 - easedContent) * 3.4).toFixed(2)}px`);

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lyrica — Reserve</title>
+    <meta name="description" content="Begin a private inquiry with the Lyrica atelier." />
+    <meta name="theme-color" content="#0e0e0e" />
+    <link rel="icon" type="image/png" href="../final-src-branding/second-logo-final@4x.png" />
+    <link rel="stylesheet" href="./styles.css?v=7" />
+    <link rel="stylesheet" href="./subpages.css?v=6" />
+  </head>
+  <body class="subpage">
+    <a class="skip-link" href="#intro">Skip to content</a>
+
+    <header class="page-header" aria-label="Primary">
+      <a class="brand-mark" href="./index.html" aria-label="Lyrica home">
+        <img
+          src="../final-src-branding/Logo Final-full.png"
+          srcset="../final-src-branding/Logo Final-full.png 1x, ../final-src-branding/Logo Final-full@2x.png 2x, ../final-src-branding/Logo Final-full@4x.png 4x"
+          alt="Lyrica"
+        />
+      </a>
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="primary-nav"
+        aria-label="Open navigation"
+      >Menu</button>
+      <nav class="nav-links" id="primary-nav" aria-label="Sections">
+        <a href="./collection.html">Collection</a>
+        <a href="./craft.html">Craft</a>
+        <a href="./reserve.html" aria-current="page">Reserve</a>
+      </nav>
+    </header>
+
+    <main class="site-shell">
+      <section class="content-section section-light page-intro" id="intro" aria-labelledby="intro-title">
+        <p class="type-label">Private Inquiry</p>
+        <h1 class="type-title" id="intro-title">
+          Begin a quiet conversation.
+        </h1>
+        <div class="section-copy">
+          <p class="type-body">
+            Lyrica pieces are released in limited quantity. For availability,
+            private viewing, or launch access, reach the atelier through the
+            form&nbsp;below.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section section-dark" aria-labelledby="form-title">
+        <h2 class="type-title reserve-form-title" id="form-title">
+          Reserve a viewing.
+        </h2>
+
+        <form class="reserve-form" novalidate>
+          <div class="reserve-row">
+            <div class="reserve-field">
+              <label for="rf-first">First name<span class="req" aria-hidden="true">*</span></label>
+              <input id="rf-first" name="first" type="text" autocomplete="given-name" required aria-required="true" />
+            </div>
+            <div class="reserve-field">
+              <label for="rf-last">Last name<span class="req" aria-hidden="true">*</span></label>
+              <input id="rf-last" name="last" type="text" autocomplete="family-name" required aria-required="true" />
+            </div>
+          </div>
+
+          <div class="reserve-row">
+            <div class="reserve-field">
+              <label for="rf-email">Email<span class="req" aria-hidden="true">*</span></label>
+              <input id="rf-email" name="email" type="email" autocomplete="email" required aria-required="true" />
+            </div>
+            <div class="reserve-field">
+              <label for="rf-country">Country <span class="type-label field-meta">(optional)</span></label>
+              <input id="rf-country" name="country" type="text" autocomplete="country-name" />
+            </div>
+          </div>
+
+          <div class="reserve-field">
+            <label for="rf-interest">Piece of interest <span class="type-label field-meta">(optional)</span></label>
+            <select id="rf-interest" name="interest">
+              <option value="undecided">Undecided</option>
+              <option value="no1">Lyrica No. 1 &mdash; Clarity</option>
+              <option value="no2">Lyrica No. 2 &mdash; Integrity</option>
+              <option value="no3">Lyrica No. 3 &mdash; Restraint</option>
+            </select>
+          </div>
+
+          <div class="reserve-field">
+            <label for="rf-note">Note <span class="type-label field-meta">(optional)</span></label>
+            <textarea id="rf-note" name="note" rows="4" placeholder="Anything we should know before we reply."></textarea>
+          </div>
+
+          <button class="reserve-submit" type="submit">Send Inquiry</button>
+        </form>
+
+        <p class="reserve-status" role="status" aria-live="polite"></p>
+
+        <aside class="reserve-aside" aria-label="Atelier contact">
+          <p class="type-label">Atelier</p>
+          <p class="type-data">Replies are written by hand and arrive within&nbsp;48&nbsp;hours.</p>
+          <p class="type-data">For correspondence: <br /><a href="mailto:inquiry@lyrica.watch">inquiry@lyrica.watch</a></p>
+        </aside>
+      </section>
+
+      <section class="content-section section-light page-intro" aria-labelledby="close-title">
+        <p class="type-label">Quiet return</p>
+        <h2 class="type-title" id="close-title">
+          Some objects do not pass through time. They&nbsp;gather&nbsp;it.
+        </h2>
+      </section>
+
+      <footer class="site-footer" aria-label="Footer">
+        <div class="footer-brand">
+          <a class="footer-logo" href="./index.html" aria-label="Lyrica home">
+            <img
+              src="../final-src-branding/Logo Final-full.png"
+              srcset="../final-src-branding/Logo Final-full.png 1x, ../final-src-branding/Logo Final-full@2x.png 2x, ../final-src-branding/Logo Final-full@4x.png 4x"
+              alt="Lyrica"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <p>Swiss mechanical watches shaped by contemporary restraint.</p>
+        </div>
+        <nav class="footer-groups" aria-label="Footer navigation">
+          <div>
+            <h3>Collection</h3>
+            <a href="./collection.html#no1">Lyrica No. 1</a>
+            <a href="./collection.html#no2">Lyrica No. 2</a>
+            <a href="./collection.html#no3">Lyrica No. 3</a>
+          </div>
+          <div>
+            <h3>Maison</h3>
+            <a href="./craft.html">Craftsmanship</a>
+            <a href="./craft.html">Materials</a>
+            <a href="./index.html#object">Heritage</a>
+          </div>
+          <div>
+            <h3>Client Services</h3>
+            <a href="./reserve.html">Private Inquiry</a>
+            <span class="footer-disabled" aria-disabled="true">Warranty (soon)</span>
+            <span class="footer-disabled" aria-disabled="true">Care Guide (soon)</span>
+          </div>
+          <div>
+            <h3>Legal</h3>
+            <span class="footer-disabled" aria-disabled="true">Privacy (soon)</span>
+            <span class="footer-disabled" aria-disabled="true">Terms (soon)</span>
+            <span class="footer-disabled" aria-disabled="true">Accessibility (soon)</span>
+          </div>
+        </nav>
+      </footer>
+    </main>
+
+    <script src="./subpages.js?v=3"></script>
+  </body>
+</html>

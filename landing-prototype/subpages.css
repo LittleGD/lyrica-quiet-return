@@ -1,0 +1,950 @@
+/* Subpages — Collection, Craft, Reserve
+ * Layered on top of styles.css. Reuses the same tokens, type classes,
+ * .content-section / .section-light / .section-dark / .site-footer shell.
+ *
+ * The landing page's styles.css sets aggressive min-heights and pins
+ * `.content-section .type-title` to columns 5/6 — that hijacks the
+ * placement of headings inside nested grids (e.g. .watch-copy). The
+ * `body.subpage` block below normalizes those rules for subpages so
+ * the layout stays a clean, left-aligned editorial stack.
+ */
+
+/* -------- Subpage layout normalization ---------------------------------- */
+body.subpage .content-section {
+  min-height: auto;
+  align-content: start;
+  row-gap: var(--space-5);
+  padding-block: var(--space-18);
+}
+
+/* Neutralize the global `.content-section .type-title { grid-column: 5/span 6 }`
+ * and `.content-section .section-copy { grid-column: 5/span 4 }` rules from
+ * styles.css when those classes appear inside nested grid containers
+ * (.watch-copy, .pillar, .proof-frame, .reserve-aside, .reserve-form).
+ * The global descendant selectors otherwise generate implicit columns and
+ * push headings to the right. */
+body.subpage .watch-copy .type-title,
+body.subpage .watch-copy .type-label,
+body.subpage .watch-copy .type-body,
+body.subpage .watch-copy .section-copy,
+body.subpage .pillar .type-label,
+body.subpage .pillar .type-body,
+body.subpage .proof-frame .type-label,
+body.subpage .proof-frame .type-title,
+body.subpage .proof-frame .type-body,
+body.subpage .proof-frame .section-copy,
+body.subpage .proof-frame .watch-specs,
+body.subpage .reserve-aside .type-label,
+body.subpage .reserve-aside .type-data,
+body.subpage .reserve-form .type-title,
+body.subpage .reserve-form .type-label,
+body.subpage .reserve-form .type-body,
+body.subpage .reserve-form .section-copy {
+  grid-column: auto;
+  max-width: none;
+}
+
+:root {
+  /* Local strong hairlines (parent token --surface-line-dark ~0.16 alpha
+   * fails 3:1 for UI components. Use these where the line *is* the affordance.) */
+  --line-dark-strong: rgba(236, 237, 228, 0.42);
+  --line-light-strong: rgba(14, 14, 14, 0.34);
+  --subpage-header-h: 72px;
+}
+
+/* Anchor scroll offset so sticky header never hides anchored content. */
+[id] {
+  scroll-margin-top: calc(var(--subpage-header-h) + var(--space-4));
+}
+
+/* ---- Slim persistent header --------------------------------------------- */
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  align-items: center;
+  padding: var(--space-5) var(--grid-margin);
+  background: rgba(14, 14, 14, 0.78);
+  backdrop-filter: blur(14px) saturate(1.05);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  border-bottom: 1px solid var(--surface-line-dark);
+  color: var(--paper-bone);
+}
+
+.page-header .brand-mark {
+  grid-column: 2 / span 2;
+  width: 88px;
+}
+
+.page-header .brand-mark img {
+  width: 100%;
+  height: auto;
+  filter: invert(1) brightness(1.16) contrast(0.92);
+  opacity: 0.92;
+}
+
+.page-header .nav-toggle {
+  display: none;
+}
+
+.page-header .nav-links {
+  grid-column: 9 / span 3;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--grid-gutter);
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  mix-blend-mode: normal;
+}
+
+.page-header .nav-links a {
+  position: relative;
+  display: inline-flex;
+  min-height: 44px;
+  min-width: 44px;
+  align-items: center;
+  color: var(--text-muted-dark);
+  transition:
+    color var(--motion-xs) var(--ease-return),
+    transform var(--motion-xs) var(--ease-return);
+}
+
+.page-header .nav-links a[aria-current="page"] {
+  color: var(--paper-bone);
+}
+
+.page-header .nav-links a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  height: 1px;
+  background: var(--paper-bone);
+}
+
+.page-header .nav-links a:focus-visible {
+  outline: 1px solid var(--paper-bone);
+  outline-offset: 4px;
+  color: var(--paper-bone);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .page-header .nav-links a:hover {
+    color: var(--paper-bone);
+    transform: translate3d(0, -1px, 0);
+  }
+}
+
+.page-header .nav-links a:active {
+  transform: translate3d(0, 0, 0) scale(0.98);
+}
+
+/* ---- Page intro (Recipe C: Label + Title + Body) ------------------------ */
+
+.page-intro {
+  min-height: auto;
+  align-content: start;
+  row-gap: var(--space-6);
+  padding-block:
+    calc(var(--subpage-header-h) + var(--space-14))
+    var(--space-14);
+}
+
+.page-intro > .type-label {
+  grid-column: 2 / span 10;
+  color: var(--text-muted-light);
+}
+
+.section-dark.page-intro > .type-label {
+  color: var(--text-muted-dark);
+}
+
+.page-intro > .type-title {
+  grid-column: 2 / span 8;
+  margin: 0;
+  max-width: 14ch;
+}
+
+.page-intro > .section-copy {
+  grid-column: 2 / span 6;
+  display: grid;
+  gap: var(--space-4);
+  max-width: 520px;
+  margin: var(--space-4) 0 0;
+}
+
+.page-intro > .intro-actions {
+  grid-column: 2 / span 10;
+  justify-self: start;
+  margin-top: var(--space-5);
+}
+
+/* ---- Inquiry / CTA buttons (used in subpage intro closes) ---------------- */
+
+.inquiry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.inquiry-actions a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-6);
+  border: 1px solid var(--line-dark-strong);
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  color: var(--paper-bone);
+  transition:
+    border-color var(--motion-xs) var(--ease-return),
+    background-color var(--motion-xs) var(--ease-return),
+    transform var(--motion-xs) var(--ease-return);
+}
+
+.section-light .inquiry-actions a {
+  border-color: var(--line-light-strong);
+  color: var(--lyrica-ink);
+}
+
+.inquiry-actions a:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .inquiry-actions a:hover {
+    border-color: var(--paper-bone);
+    background: rgba(236, 237, 228, 0.08);
+    transform: translate3d(0, -1px, 0);
+  }
+  .section-light .inquiry-actions a:hover {
+    border-color: var(--lyrica-ink);
+    background: rgba(14, 14, 14, 0.04);
+  }
+}
+
+.inquiry-actions a:active {
+  transform: scale(0.97);
+}
+
+/* ---- Collection page ---------------------------------------------------- */
+
+.collection-roll {
+  align-content: start;
+  min-height: auto;
+}
+
+.collection-roll > .type-label {
+  grid-column: 2 / span 10;
+  color: var(--text-muted-light);
+}
+
+.watch-row {
+  grid-column: 2 / span 10;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  align-items: center;
+  row-gap: var(--space-7);
+}
+
+.watch-row + .watch-row {
+  margin-top: var(--space-14);
+  padding-top: var(--space-14);
+  border-top: 1px solid var(--surface-line-light);
+}
+
+.watch-row .watch-media {
+  grid-column: 1 / span 5;
+  position: relative;
+  min-height: clamp(360px, 38vw, 560px);
+}
+
+.watch-row.is-flipped .watch-media {
+  grid-column: 6 / span 5;
+  order: 2;
+}
+
+.watch-row.is-flipped .watch-copy {
+  grid-column: 1 / span 4;
+  order: 1;
+}
+
+.watch-row .watch-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-12);
+  object-fit: contain;
+  filter:
+    drop-shadow(0 22px 42px rgba(14, 14, 14, 0.14))
+    saturate(0.92)
+    contrast(0.98);
+  transition: transform var(--motion-sm) var(--ease-return);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .watch-row:hover .watch-media img {
+    transform: translate3d(0, -6px, 0) scale(1.014);
+  }
+}
+
+.watch-row:active .watch-media img {
+  transform: scale(0.998);
+  transition-duration: 120ms;
+}
+
+.watch-copy {
+  grid-column: 7 / span 4;
+  display: grid;
+  gap: var(--space-4);
+  max-width: 460px;
+  align-content: center;
+}
+
+.watch-copy .type-title {
+  margin: var(--space-1) 0 0;
+  font-size: var(--type-title);
+  line-height: var(--lh-title);
+  font-weight: var(--weight-regular);
+  text-wrap: balance;
+}
+
+.watch-copy .type-label {
+  color: var(--text-muted-light);
+}
+
+.watch-copy .type-title {
+  text-wrap: balance;
+}
+
+.watch-specs {
+  margin-top: var(--space-5);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3) var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--surface-line-light);
+  font-size: var(--type-data);
+  line-height: var(--lh-data);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.watch-specs dt {
+  color: var(--text-muted-light);
+  text-transform: uppercase;
+  font-size: var(--type-label);
+  line-height: var(--lh-label);
+  font-weight: var(--weight-regular);
+}
+
+.watch-specs dd {
+  margin: 0;
+  color: var(--lyrica-ink);
+}
+
+.section-dark .watch-specs dt {
+  color: var(--text-muted-dark);
+}
+
+.section-dark .watch-specs dd {
+  color: var(--paper-bone);
+}
+
+/* ---- Craft page --------------------------------------------------------- */
+
+.craft-pillars {
+  align-content: start;
+  row-gap: var(--space-8);
+}
+
+.craft-pillars > .type-label {
+  grid-column: 2 / span 10;
+  color: var(--text-muted-dark);
+}
+
+.section-light.craft-pillars > .type-label {
+  color: var(--text-muted-light);
+}
+
+.craft-pillars > .type-title {
+  grid-column: 2 / span 8;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.craft-pillars > .section-copy {
+  grid-column: 2 / span 6;
+  max-width: 520px;
+}
+
+.pillar-grid {
+  grid-column: 2 / span 10;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  row-gap: var(--space-10);
+  margin-top: var(--space-8);
+}
+
+.pillar {
+  display: grid;
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--surface-line-dark);
+}
+
+.pillar .type-label {
+  color: var(--text-muted-dark);
+}
+
+.pillar h3.type-body {
+  font-weight: var(--weight-regular);
+}
+
+.pillar p.type-body {
+  font-weight: var(--weight-light);
+  color: var(--text-soft-dark);
+  text-wrap: pretty;
+  max-width: 38ch;
+}
+
+.section-light .pillar p.type-body {
+  color: var(--text-soft-light);
+}
+
+/* Precision-framed proof block — proof block is the only section content,
+ * so the parent section omits its own Label+Title (Recipe-compliant). */
+
+.proof-frame {
+  position: relative;
+  grid-column: 2 / span 10;
+  padding: var(--space-10) var(--space-12);
+  border: 1px solid var(--surface-line-dark);
+}
+
+.proof-frame .corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--paper-bone);
+}
+
+.proof-frame .corner.tl { top: -1px; left: -1px;  border-width: 1px 0 0 1px; }
+.proof-frame .corner.tr { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+.proof-frame .corner.bl { bottom: -1px; left: -1px;  border-width: 0 0 1px 1px; }
+.proof-frame .corner.br { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+.section-light .proof-frame {
+  border-color: var(--surface-line-light);
+}
+
+.section-light .proof-frame .corner {
+  border-color: var(--lyrica-ink);
+}
+
+.proof-frame .type-label {
+  color: var(--text-muted-dark);
+}
+
+.section-light .proof-frame .type-label {
+  color: var(--text-muted-light);
+}
+
+.proof-frame .type-title {
+  margin-top: var(--space-4);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+.proof-frame .type-body {
+  margin-top: var(--space-6);
+  max-width: 56ch;
+}
+
+.proof-frame .watch-specs.is-quad {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Footer disabled (placeholder) entries — same rhythm, but not interactive. */
+.footer-disabled {
+  display: inline-flex;
+  min-height: 44px;
+  min-width: 44px;
+  align-items: center;
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  color: var(--text-muted-dark);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Proof-frame corners — drawn on reveal. */
+.proof-frame .corner {
+  transform: scale(0.001);
+  transform-origin: var(--co-x, 0) var(--co-y, 0);
+  transition: transform var(--motion-md) var(--ease-ritual);
+}
+.proof-frame .corner.tl { --co-x: 0; --co-y: 0; }
+.proof-frame .corner.tr { --co-x: 100%; --co-y: 0; }
+.proof-frame .corner.bl { --co-x: 0; --co-y: 100%; }
+.proof-frame .corner.br { --co-x: 100%; --co-y: 100%; }
+
+.is-visible .proof-frame .corner { transform: scale(1); }
+.is-visible .proof-frame .corner.tr { transition-delay: 80ms; }
+.is-visible .proof-frame .corner.bl { transition-delay: 160ms; }
+.is-visible .proof-frame .corner.br { transition-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .proof-frame .corner { transform: scale(1); transition: none; }
+}
+
+/* ---- Reserve page ------------------------------------------------------- */
+
+.content-section > .reserve-form-title {
+  grid-column: 2 / span 8;
+  max-width: 16ch;
+  margin: 0;
+}
+
+.content-section > .reserve-form {
+  grid-column: 2 / span 7;
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.reserve-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.reserve-field label {
+  font-size: var(--type-label);
+  line-height: var(--lh-label);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+}
+
+.reserve-field .req {
+  color: var(--ember-memory);
+  margin-left: 4px;
+}
+
+.reserve-field .field-meta {
+  margin-left: var(--space-2);
+  color: var(--text-muted-dark);
+}
+
+.section-light .reserve-field .field-meta {
+  color: var(--text-muted-light);
+}
+
+.reserve-field input,
+.reserve-field select,
+.reserve-field textarea {
+  width: 100%;
+  padding: var(--space-4) 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-dark-strong);
+  color: var(--paper-bone);
+  font-family: var(--font-main);
+  font-size: var(--type-body);
+  line-height: var(--lh-body);
+  font-weight: var(--weight-light);
+  letter-spacing: 0;
+  transition:
+    border-color var(--motion-xs) var(--ease-return),
+    color var(--motion-xs) var(--ease-return);
+}
+
+.reserve-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--paper-bone) 50%),
+                    linear-gradient(135deg, var(--paper-bone) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 50%, calc(100% - 8px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: var(--space-7);
+}
+
+.reserve-field input::placeholder,
+.reserve-field textarea::placeholder {
+  color: var(--text-muted-dark);
+}
+
+.reserve-field input:focus,
+.reserve-field select:focus,
+.reserve-field textarea:focus {
+  outline: none;
+  border-bottom-color: var(--paper-bone);
+}
+
+/* Light-surface variant for reserve form (cadence dark→light→dark on reserve page) */
+.section-light .reserve-field label { color: var(--text-muted-light); }
+.section-light .reserve-field input,
+.section-light .reserve-field select,
+.section-light .reserve-field textarea {
+  border-bottom-color: var(--line-light-strong);
+  color: var(--lyrica-ink);
+}
+.section-light .reserve-field input::placeholder,
+.section-light .reserve-field textarea::placeholder {
+  color: var(--text-muted-light);
+}
+.section-light .reserve-field input:focus,
+.section-light .reserve-field select:focus,
+.section-light .reserve-field textarea:focus {
+  border-bottom-color: var(--lyrica-ink);
+}
+.section-light .reserve-field input:focus-visible,
+.section-light .reserve-field select:focus-visible,
+.section-light .reserve-field textarea:focus-visible {
+  outline: 1px solid var(--lyrica-ink);
+}
+.section-light .reserve-field select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--lyrica-ink) 50%),
+    linear-gradient(135deg, var(--lyrica-ink) 50%, transparent 50%);
+}
+.section-light .reserve-submit {
+  border-color: var(--line-light-strong);
+  color: var(--lyrica-ink);
+}
+.section-light .reserve-aside {
+  border-top-color: var(--surface-line-light);
+}
+.section-light .reserve-aside .type-label,
+.section-light .reserve-aside p {
+  color: var(--text-soft-light);
+}
+.section-light .reserve-aside .type-label { color: var(--text-muted-light); }
+@media (hover: hover) and (pointer: fine) {
+  .section-light .reserve-submit:hover {
+    border-color: var(--lyrica-ink);
+    background: rgba(14, 14, 14, 0.04);
+  }
+}
+@media (forced-colors: active) {
+  .reserve-field select {
+    background-image: none;
+    border: 1px solid CanvasText;
+  }
+}
+
+.reserve-field input:focus-visible,
+.reserve-field select:focus-visible,
+.reserve-field textarea:focus-visible {
+  outline: 1px solid var(--paper-bone);
+  outline-offset: 4px;
+}
+
+.reserve-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.reserve-field[data-invalid="true"] input,
+.reserve-field[data-invalid="true"] select,
+.reserve-field[data-invalid="true"] textarea {
+  border-bottom-color: var(--ember-memory);
+}
+
+.reserve-field .field-error {
+  display: none;
+  margin: 0;
+  font-size: var(--type-data);
+  line-height: var(--lh-data);
+  color: var(--ember-memory);
+}
+
+.reserve-field[data-invalid="true"] .field-error {
+  display: block;
+}
+
+.reserve-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.reserve-submit {
+  display: inline-flex;
+  align-self: start;
+  min-height: 44px;
+  padding: 0 var(--space-7);
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--line-dark-strong);
+  color: var(--paper-bone);
+  font-family: var(--font-main);
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-xs) var(--ease-return),
+    background-color var(--motion-xs) var(--ease-return),
+    transform var(--motion-xs) var(--ease-return);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reserve-submit:hover {
+    border-color: var(--paper-bone);
+    background: rgba(236, 237, 228, 0.08);
+    transform: translate3d(0, -1px, 0);
+  }
+}
+
+.reserve-submit:focus-visible {
+  outline: 1px solid var(--paper-bone);
+  outline-offset: 4px;
+}
+
+.reserve-submit:active {
+  transform: translate3d(0, 0, 0) scale(0.97);
+  transition: transform 90ms ease-out;
+}
+
+.reserve-submit[aria-busy="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.content-section > .reserve-status {
+  grid-column: 2 / span 7;
+}
+.reserve-status {
+  margin-top: var(--space-4);
+  padding: var(--space-4) 0;
+  font-size: var(--type-data);
+  line-height: var(--lh-data);
+  color: var(--text-soft-dark);
+  border-top: 1px solid var(--surface-line-dark);
+  min-height: 3em;
+  opacity: 1;
+  transition: opacity var(--motion-xs) var(--opacity-linear);
+}
+
+.section-light .reserve-status {
+  color: var(--text-soft-light);
+  border-top-color: var(--surface-line-light);
+}
+
+.reserve-status.is-changing {
+  opacity: 0;
+}
+
+.reserve-status[data-state="success"] {
+  color: var(--paper-bone);
+}
+
+.reserve-status[data-state="error"] {
+  color: var(--ember-memory);
+}
+
+.content-section > .reserve-aside {
+  grid-column: 10 / span 3;
+}
+.reserve-aside {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--surface-line-dark);
+  align-self: start;
+}
+
+.reserve-aside .type-label {
+  color: var(--text-muted-dark);
+}
+
+.reserve-aside p {
+  margin: 0;
+  font-size: var(--type-data);
+  line-height: var(--lh-data);
+  color: var(--text-soft-dark);
+}
+
+/* ---- Mobile nav disclosure --------------------------------------------- */
+
+.page-header .nav-toggle {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--line-dark-strong);
+  color: var(--paper-bone);
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  font-family: var(--font-main);
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-xs) var(--ease-return),
+    background-color var(--motion-xs) var(--ease-return);
+}
+
+.page-header .nav-toggle:focus-visible {
+  outline: 1px solid var(--paper-bone);
+  outline-offset: 4px;
+}
+
+body[data-nav-open="true"] {
+  overflow: hidden;
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (min-width: 600px) and (max-width: 1023px) {
+  .page-intro .type-title { grid-column: 2 / span 10; }
+  .page-intro .section-copy { grid-column: 3 / span 8; }
+  .page-intro .intro-actions { grid-column: 3 / span 8; }
+  .watch-row .watch-media,
+  .watch-row.is-flipped .watch-media { grid-column: 1 / span 10; order: 1; }
+  .watch-copy,
+  .watch-row.is-flipped .watch-copy { grid-column: 2 / span 8; order: 2; }
+  .craft-pillars .type-title { grid-column: 2 / span 10; }
+  .craft-pillars .section-copy { grid-column: 2 / span 8; }
+  .pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reserve-form-title,
+  .reserve-form { grid-column: 2 / 12; }
+  .reserve-aside { grid-column: 2 / 12; }
+  .reserve-status { grid-column: 2 / 12; }
+}
+
+@media (max-width: 599px) {
+  :root { --subpage-header-h: 64px; }
+
+  .page-header { padding: var(--space-4) var(--grid-margin); }
+  .page-header .brand-mark { grid-column: 1 / span 2; width: 72px; }
+
+  .page-header .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 4 / span 1;
+    justify-self: end;
+  }
+
+  .page-header .nav-links {
+    position: fixed;
+    inset: var(--subpage-header-h) 0 0 0;
+    grid-column: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-7) var(--grid-margin);
+    background: rgba(14, 14, 14, 0.96);
+    backdrop-filter: blur(18px) saturate(1.05);
+    -webkit-backdrop-filter: blur(18px) saturate(1.05);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, -8px, 0);
+    transition:
+      opacity var(--motion-xs) var(--ease-return),
+      transform var(--motion-xs) var(--ease-return);
+    font-size: var(--type-body);
+    line-height: 1.4;
+  }
+
+  body[data-nav-open="true"] .page-header .nav-links {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0);
+    transition-duration: var(--motion-sm);
+  }
+
+  .page-header .nav-links a {
+    min-height: 56px;
+    width: 100%;
+    padding-left: var(--space-3);
+    border-bottom: 1px solid var(--surface-line-dark);
+  }
+
+  .page-header .nav-links a[aria-current="page"]::after {
+    content: none;
+  }
+
+  .page-header .nav-links a[aria-current="page"] {
+    border-left: 2px solid var(--paper-bone);
+    padding-left: calc(var(--space-3) - 2px);
+  }
+
+  .page-intro .type-label,
+  .page-intro .type-title,
+  .page-intro .section-copy,
+  .page-intro .intro-actions { grid-column: 1 / -1; }
+
+  .collection-roll .type-label { grid-column: 1 / -1; }
+  .watch-row { grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .watch-row .watch-media,
+  .watch-row.is-flipped .watch-media { grid-column: 1 / -1; order: 1; min-height: 320px; }
+  .watch-copy,
+  .watch-row.is-flipped .watch-copy { grid-column: 1 / -1; order: 2; }
+
+  .pillar-grid { grid-template-columns: 1fr; grid-column: 1 / -1; }
+  .craft-pillars .type-label,
+  .craft-pillars .type-title,
+  .craft-pillars .section-copy { grid-column: 1 / -1; }
+
+  .proof-frame { grid-column: 1 / -1; padding: var(--space-10) var(--space-6); }
+  .proof-frame .watch-specs.is-quad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .reserve-form-title,
+  .reserve-form,
+  .reserve-status,
+  .reserve-aside { grid-column: 1 / -1; }
+  .reserve-row { grid-template-columns: 1fr; }
+}
+
+/* ---- Reduced motion ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .page-header .nav-links a,
+  .inquiry-actions a,
+  .reserve-submit,
+  .reserve-field input,
+  .reserve-field select,
+  .reserve-field textarea,
+  .watch-row .watch-media img {
+    transition-duration: 120ms !important;
+    transition-property: opacity, color, border-color, background-color !important;
+  }
+  .page-header .nav-links {
+    transition: opacity var(--motion-xs) linear !important;
+  }
+  .watch-row:hover .watch-media img,
+  .page-header .nav-links a:hover,
+  .inquiry-actions a:hover,
+  .reserve-submit:hover {
+    transform: none !important;
+  }
+  .reserve-submit:active,
+  .inquiry-actions a:active,
+  .page-header .nav-links a:active,
+  .watch-row:active .watch-media img {
+    transform: none !important;
+  }
+}

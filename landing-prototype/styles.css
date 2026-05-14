@@ -1387,11 +1387,12 @@ video {
   --observe-content-opacity: 1;
   --observe-content-y: 0px;
   --observe-content-blur: 0px;
-  height: 160svh;
+  height: 280svh;
   min-height: 0;
   position: relative;
   z-index: 4;
   display: block;
+  align-content: start;
   padding: 0;
   background: var(--paper-bone);
   background-size: auto;
@@ -1601,16 +1602,18 @@ video {
   --craft-enter-y: 0;
   --craft-enter-scale: 1.04;
   --craft-enter-blur: 4px;
+  --craft-enter-clip: 28%;
   --craft-bg-opacity: 0;
-  height: 130svh;
+  height: 220svh;
   min-height: 0;
-  margin-top: -100svh;
+  margin-top: 0;
   position: relative;
-  z-index: 30;
+  z-index: 5;
   display: block;
+  align-content: start;
   padding: 0;
-  overflow: visible;
-  background: transparent;
+  overflow: hidden;
+  background: var(--lyrica-ink);
 }
 
 .craftsmanship::before {
@@ -1642,7 +1645,7 @@ video {
   grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   align-items: stretch;
-  padding: var(--space-13) var(--grid-margin);
+  padding: var(--space-9) var(--grid-margin) var(--space-10);
   overflow: hidden;
   isolation: isolate;
   opacity: 1;
@@ -1674,11 +1677,29 @@ video {
   z-index: 0;
   opacity: var(--craft-enter-opacity);
   transform:
-    translate3d(0, var(--craft-media-y), 0)
+    translate3d(0, calc(var(--craft-media-y) + var(--craft-enter-y)), 0)
     scale(calc(var(--craft-media-scale) * var(--craft-enter-scale)));
   filter: blur(calc(var(--craft-media-blur) + var(--craft-enter-blur)));
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent max(0%, calc(var(--craft-enter-clip) - 12%)),
+      rgba(0, 0, 0, 0.36) max(0%, calc(var(--craft-enter-clip) - 5%)),
+      #000 var(--craft-enter-clip),
+      #000 100%
+    );
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent max(0%, calc(var(--craft-enter-clip) - 12%)),
+      rgba(0, 0, 0, 0.36) max(0%, calc(var(--craft-enter-clip) - 5%)),
+      #000 var(--craft-enter-clip),
+      #000 100%
+    );
   pointer-events: none;
-  will-change: transform, filter;
+  will-change: opacity, transform, filter, mask-image;
 }
 
 .craft-sequence {
@@ -1714,7 +1735,7 @@ video {
   z-index: 2;
   grid-column: 2 / span 4;
   display: grid;
-  gap: var(--space-7);
+  gap: var(--space-5);
   align-self: start;
   opacity: var(--craft-content-opacity);
   transform: translate3d(0, var(--craft-content-y), 0);
@@ -2420,13 +2441,13 @@ video {
   }
 
   .watch-exploration {
-    height: 210svh;
+    height: 280svh;
     min-height: 0;
     padding: 0;
   }
 
   .craftsmanship {
-    height: 190svh;
+    height: 240svh;
     min-height: 0;
     padding: 0;
   }
